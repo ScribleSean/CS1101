@@ -119,6 +119,7 @@
 ;;consumes a film a returns an opening-date of the film
 (define (openingDate film)
   (film-opening-date film))
+(check-expect (openingDate GETOUT)(make-date 2017 02 24))
 
 ;;YEAR : date --> date-year
 ;;consumes a date and returns a date-year for that date

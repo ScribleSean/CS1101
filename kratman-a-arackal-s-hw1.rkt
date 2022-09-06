@@ -49,11 +49,11 @@
   (and (string=? (film-genre film) "drama") (> (film-running-time film) 150))))
 
 ;; Case where film is not a Drama which is more than 150 mins long
-;;and its not Oscar Nominated with a rating of "NR" or "NC-17"
+;;and it's not Oscar Nominated with a rating of "NR" or "NC-17"
 (check-expect (high-brow? SAW) #false)
 
 ;; Case where film is not a Drama which is more than 150 mins long
-;;and its not Oscar Nominated with a rating of "NR" or "NC-17"
+;;and it's not Oscar Nominated with a rating of "NR" or "NC-17"
 (check-expect (high-brow? BLAIR) #false)
 
 ;; Case where film is not a Drama which is more than 150 mins long
@@ -61,7 +61,7 @@
 (check-expect (high-brow? GETOUT) #false)
 
 ;; Case where film IS a Drama but is NOT more than 150 mins long
-;;and its not Oscar Nominated with a rating of "NR" or "NC-17"
+;;and it's not Oscar Nominated with a rating of "NR" or "NC-17"
 (check-expect (high-brow? ARRIVAL) #false)
 
 ;; Case where film is not a Drama which is more than 150 mins long

@@ -127,14 +127,14 @@
   (date-year date))
 (check-expect (YEAR (make-date 2012 01 02)) 2012)
 
-;;YEAR : date --> date-year
-;;consumes a date and returns a date-year for that date
+;;MONTH : date --> date-month
+;;consumes a date and returns a date-month for that date
 (define (MONTH date)
   (date-month date))
 (check-expect (MONTH (make-date 2012 01 02)) 01)
 
-;;YEAR : date --> date-year
-;;consumes a date and returns a date-year for that date
+;;DAY : date --> date-day
+;;consumes a date and returns a date-day for that date
 (define (DAY date)
   (date-day date))
 (check-expect (DAY (make-date 2012 01 02)) 02)

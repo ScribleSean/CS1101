@@ -36,36 +36,104 @@
 
 ;;Question 3
 
-;;A Reciept is one of
+;;A Receiept is one of
 ;;empty
-;;(cons Merchandise Reciept)
-(define Reciept1 (cons BUZZ (cons ONUW empty)))
-(define Recipet2 (cons ONUW (cons BUZZ (cons JETER empty))))
+;;(cons Merchandise Receiept)
+(define Receipt1 (cons BUZZ (cons ONUW empty)))
+(define Receipt2 (cons ONUW (cons BUZZ (cons JETER empty))))
 
 
 ;;Question 4
 
 
-; ;; loc-fcn:  ListOfCourse -> ...
-#;(define (loc-fcn aloc)
-   (cond [(empty? aloc)  ...]
-         [(cons? aloc)  ...
-          (loc-helper-fcn (first aloc))
-          (loc-fcn (rest aloc))]))
+; ;; lom-fcn:  ListOfMerchandise -> ...
+#;(define (lom-fcn alom)
+   (cond [(empty? alom)  ...]
+         [(cons? alom)  ...
+          (lom-helper-fcn (first alom))
+          (lom-fcn (rest alom))]))
 
 
 ;;Question 5
 
 
-;;signature
-;purpose
-(define (list-cheap-autograph aloc COST)
-   (cond [(empty? aloc) empty]
-         [(cons? aloc)
-          (if (and (< (Merchandise-price (first aloc)) COST) (Merchandise-autographed? (first aloc))) ;;helper for (and) required
-          (cons (first aloc) (list-cheap-autograph (rest aloc) COST))
-          (list-cheap-autograph (rest aloc) COST))]))
+;;helper-function
+;;
+;;purpose
 
-(check-expect (list-cheap-autograph Reciept1 999) empty)
-(check-expect (list-cheap-autograph Recipet2 999) (cons JETER empty))
+;;list-cheapautograph: ListOfMerchandise Number --> ListOfMerchandise
+;To consume a Receiept and return merchandises in that list that are less than a given price and are autographed
+(define (list-cheap-autograph alom COST)
+   (cond [(empty? alom) empty]
+         [(cons? alom)
+          (if (and (< (Merchandise-price (first alom)) COST) (Merchandise-autographed? (first alom))) ;;helper for (and) required
+          (cons (first alom) (list-cheap-autograph (rest alom) COST))
+          (list-cheap-autograph (rest alom) COST))]))
 
+(check-expect (list-cheap-autograph Receipt1 999) empty)
+(check-expect (list-cheap-autograph Receipt2 999) (cons JETER empty))
+
+
+;;Question 6
+
+
+;;helper-function
+;;trading-card? : String --> Boolean
+;;purpose
+(define (trading-card? merch-type)
+  (string=? merch-type "trading card"))
+
+;;count-trading-cards: ListOfMerchandise --> Natural
+;;purpose
+(define (count-trading-cards alom)
+  (cond [(empty? alom) 0]
+        [(cons? alom)
+         (if (trading-card? (Merchandise-kind(first alom)))
+             (+ (Merchandise-quantity (first alom)) (count-trading-cards (rest alom)))
+             (count-trading-cards (rest alom)))]))
+             
+(check-expect (count-trading-cards Receipt2) 12)
+
+
+;;Question 7
+
+
+;;receipt-total: ListOfMerchandise --> Number
+;;purpose
+(define (receipt-total alom)
+  (cond [(empty? alom) 0]
+        [(cons? alom)
+         (+ (* (Merchandise-quantity (first alom)) (Merchandise-price (first alom))) (receipt-total (rest alom)))])) ;;helper here
+
+(check-expect (receipt-total Receipt1) 11729.4)
+
+
+;Question 8
+
+
+;;board-games-cost ListOfMerchandise --> Number
+;;purpose
+(define (board-games-cost alom)
+  (cond [(empty? alom) 0]
+        [(cons? alom)
+         (if (string=? (Merchandise-kind (first alom)) "board game")
+             (+ (* (Merchandise-quantity (first alom)) (Merchandise-price (first alom))) (board-games-cost (rest alom))) ;;helper here
+             (board-games-cost (rest alom)))]))
+
+(check-expect (board-games-cost Receipt2) 9352.8)
+
+
+;;Question 9
+
+
+;;halloween-sale ListOfMerchandise Number --> Number
+;;purpose
+(define (halloween-sale alom discount)
+  (cond [(empty? alom) 0]
+        [(cons? alom)
+         (if (string=? (Merchandise-kind (first alom)) "costume")
+              (+ (* discount (Merchandise-quantity (first alom)) (Merchandise-price (first alom))) (halloween-sale (rest alom) discount))
+              (+ (* (Merchandise-quantity (first alom)) (Merchandise-price (first alom))) (halloween-sale (rest alom) discount)))]))
+
+(check-expect (halloween-sale Receipt1 0.25) 11729.4)
+             

@@ -69,7 +69,7 @@
 #;(define (lom-fcn alom)
    (cond [(empty? alom)  ...]
          [(cons? alom)  ...
-          (lom-helper-fcn (first alom))
+          (merchandise-fcn (first alom))
           (lom-fcn (rest alom))]))
 
 

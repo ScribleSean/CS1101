@@ -201,5 +201,5 @@
 (check-expect (halloween-sale Receipt7 0.30) 13299.88)  ;; The total cost of all the merchandise in Receipt 7, including a 30% discount on halloween costumes.
 
 
-
+;;Thank you!!
  

@@ -169,7 +169,7 @@
 
 
 ;;board-game? : ListOfMerchandise --> Boolean
-;;helper function to check if first merchandise-kind is a board game or not
+;;helper function to check if first merchandise-kind of ListOfMerchandise is a board game or not
 (define (board-game? alom)
   (string=? (merchandise-kind (first alom)) "board game"))
 
@@ -199,7 +199,7 @@
 ;;Question 9
 
 ;;costume? : ListOfMerchandise --> Boolean
-;;helper function to check if first Merchandise-kind is a costume or not
+;;helper function to check if first merchandise-kind of ListOfMerchandise is a costume or not
 (define (costume? alom)
   (string=? (merchandise-kind (first alom)) "costume"))
 

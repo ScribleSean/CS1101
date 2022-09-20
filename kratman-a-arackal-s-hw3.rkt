@@ -53,6 +53,7 @@
 ;;A Receiept is one of
 ;;empty
 ;;(cons Merchandise Receipt)
+
 (define Receipt1 (list BUZZ ONUW))
 (define Receipt2 (list ONUW BUZZ JETER))
 (define Receipt3 (list BUZZ JETER ONUW BLAIRWITCHCARD))
@@ -65,7 +66,7 @@
 ;;Question 4
 
 
-; ;; lom-fcn:  ListOfMerchandise -> ...
+;; lom-fcn:  ListOfMerchandise -> ...
 #;(define (lom-fcn alom)
    (cond [(empty? alom)  ...]
          [(cons? alom)  ...
@@ -207,12 +208,12 @@
 
 ;;halloween-sale: ListOfMerchandise Number --> Number
 ;;consumes a receipt and a number representing the discount on costume items and produces the total cost of the receipt, with the discount applied only to costume merchandise.
-(define (halloween-sale alom discount)
+(define (halloween-sale alom DISCOUNT)
   (cond [(empty? alom) 0]
         [(cons? alom)
          (if (costume? alom)
-              (+ (* discount (merchandise-cost alom)) (halloween-sale (rest alom) discount))
-              (+ (merchandise-cost alom) (halloween-sale (rest alom) discount)))]))
+              (+ (* DISCOUNT (merchandise-cost alom)) (halloween-sale (rest alom) DISCOUNT))
+              (+ (merchandise-cost alom) (halloween-sale (rest alom) DISCOUNT)))]))
 
 (check-expect (halloween-sale Receipt1 0.25) 11729.40)  ;; The total cost of all the merchandise in Receipt 1, including a 25% discount on halloween costumes.
 (check-expect (halloween-sale Receipt2 0.12) 22529.28)  ;; The total cost of all the merchandise in Receipt 2, including a 12% discount on halloween costumes.

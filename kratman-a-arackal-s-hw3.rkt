@@ -3,7 +3,7 @@
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname kratman-a-arackal-s-hw3) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #t)))
 ;; Names: Abigail Kratman & Sean Arackal
 ;; WPI Usernames: aekratman & sarackal
-;;Homework #3
+;; Homework #3
 
 
 ;;Question 1

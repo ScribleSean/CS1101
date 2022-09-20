@@ -24,7 +24,7 @@
 (define BLAIRWITCHCARD (make-merchandise "Blair Witch Trading Card Set" "trading card" true 10 4))
 (define DEPARTMENTOFTRUTH (make-merchandise "The Department of Truth #8" "manga/comic book" false 1 4))
 (define MONOPOLY (make-merchandise "Monopoly" "board game" false 100 16))
-(define GHOSTFACE (make-merchandise "Scream Mask" "halloween costume" false 300 10))
+(define GHOSTFACE (make-merchandise "Scream Mask" "costume" false 300 10))
 
 
 (check-expect NEWMUTANTS (make-merchandise "The New Mutants Classic #4" "manga/comic book" true 1 10)) ;; The expected merchandise struct for the New Mutants comic.
@@ -52,7 +52,7 @@
 
 ;;A Receiept is one of
 ;;empty
-;;(cons Merchandise Receiept)
+;;(cons Merchandise Receipt)
 (define Receipt1 (list BUZZ ONUW))
 (define Receipt2 (list ONUW BUZZ JETER))
 (define Receipt3 (list BUZZ JETER ONUW BLAIRWITCHCARD))
@@ -77,11 +77,11 @@
 
 
 ;;autograph-cheap-check: ListOfMerchandise Number --> Boolean
-;;helper-function to see if given Merchandise in a list is autographed and less than a consumed number COST
+;;helper function to see if first Merchandise in a list is autographed and less than a consumed number COST
 (define (autograph-cheap-check alom COST)
   (and (< (merchandise-price (first alom)) COST) (merchandise-autographed? (first alom))))
 
-(check-expect (autograph-cheap-check Receipt1 10000) false)
+(check-expect (autograph-cheap-check Receipt1 10000) false) 
 (check-expect (autograph-cheap-check Receipt7 10000) true)
   
 
@@ -110,17 +110,21 @@
 
 
  
-;;trading-card? : String --> Boolean
-;;helper-function to check if given Merchandise-kind is a trading card or not
-(define (trading-card? merch-type)
-  (string=? merch-type "trading card"))
+;;trading-card? : ListOfMerchandise --> Boolean
+;;helper function to check if first merchandise-kind of ListOfMerchandise is a trading card or not
+(define (trading-card? alom)
+  (string=? (merchandise-kind (first alom)) "trading card"))
+
+(check-expect (trading-card? Receipt1) false)
+(check-expect (trading-card? Receipt7) true)
+
 
 ;;count-trading-cards: ListOfMerchandise --> Natural
 ;;consumes a receipt and returns the total number of items in the order that are trading cards
 (define (count-trading-cards alom)
   (cond [(empty? alom) 0]
         [(cons? alom)
-         (if (trading-card? (merchandise-kind(first alom)))
+         (if (trading-card? alom)
              (+ (merchandise-quantity (first alom)) (count-trading-cards (rest alom)))
              (count-trading-cards (rest alom)))]))
 
@@ -137,9 +141,12 @@
 
 
 ;;merchandise-cost: ListOfMerchandise --> Number
-;;helper-function to find the product of the cost and quantity of a given merchandise in a list. Or it's total cost.
+;;helper function to find the product of the cost and quantity of the first merchandise in a list. Or it's total cost.
 (define (merchandise-cost alom)
   (* (merchandise-quantity (first alom)) (merchandise-price (first alom))))
+
+(check-expect (merchandise-cost Receipt1) 2376.6)
+(check-expect (merchandise-cost Receipt7) 10799.88)
 
 ;;receipt-total: ListOfMerchandise --> Number
 ;;consumes a receipt and produces the total cost of all the merchandise items.
@@ -160,12 +167,20 @@
 ;Question 8
 
 
+;;board-game? : ListOfMerchandise --> Boolean
+;;helper function to check if first merchandise-kind is a board game or not
+(define (board-game? alom)
+  (string=? (merchandise-kind (first alom)) "board game"))
+
+(check-expect (board-game? Receipt1) false)
+(check-expect (board-game? Receipt2) true)
+
 ;;board-games-cost ListOfMerchandise --> Number
 ;;finds the total cost of all the board games contained in the receipt
 (define (board-games-cost alom)
   (cond [(empty? alom) 0]
         [(cons? alom)
-         (if (string=? (merchandise-kind (first alom)) "board game")
+         (if (board-game? alom)
              (+ (merchandise-cost alom) (board-games-cost (rest alom)))
              (board-games-cost (rest alom)))]))
 
@@ -182,13 +197,20 @@
 
 ;;Question 9
 
+;;costume? : ListOfMerchandise --> Boolean
+;;helper function to check if first Merchandise-kind is a costume or not
+(define (costume? alom)
+  (string=? (merchandise-kind (first alom)) "costume"))
+
+(check-expect (costume? Receipt1) false)
+(check-expect (costume? Receipt2) false)
 
 ;;halloween-sale: ListOfMerchandise Number --> Number
 ;;consumes a receipt and a number representing the discount on costume items and produces the total cost of the receipt, with the discount applied only to costume merchandise.
 (define (halloween-sale alom discount)
   (cond [(empty? alom) 0]
         [(cons? alom)
-         (if (string=? (merchandise-kind (first alom)) "halloween costume")
+         (if (costume? alom)
               (+ (* discount (merchandise-cost alom)) (halloween-sale (rest alom) discount))
               (+ (merchandise-cost alom) (halloween-sale (rest alom) discount)))]))
 

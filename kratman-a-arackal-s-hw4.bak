@@ -1,0 +1,32 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname HW4-starter) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(define TODO 0) ;delete me when finished
+
+(define-struct projectnode (project-id title advisor students left right))
+;; 1.a TODO Write student struct definition here
+(define-struct student (TODO))
+;; 1.b TODO Write comment (definition) for ListOfStudent here
+
+;;; 1.3 TODO write examples
+
+;; a BST is one of
+;;   false
+;;   ProjectNode
+;; a ProjectNode is a (make-projectnode Number String String ListOfStudent BST BST)
+
+;; 2: TODO write example with >= 5 projects
+
+;; 3: TODO write 3 templates in comments for Student, ListOfStudent, BST
+
+;; 4: TODO signature, purpose, code, >=4 tests
+(define (any-in-dept? a-bst dept) TODO)
+
+;; 5: TODO signature, purpose, code, tests
+(define (drop-student a-bst proj email) TODO)
+
+;; 6: TODO signature, purpose, code, tests
+(define (list-projects-in-order-by-id-num a-bst) TODO)
+
+;; 7: TODO signature, purpose, code, >=3 tests
+(define (add-project a-bst proj title advisor) TODO)

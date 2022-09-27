@@ -196,31 +196,82 @@
                               (projectnode-right a-bst))]
  
           
-                              [(> (projectnode-project-id a-bst) project-id)
+                              [(< (projectnode-project-id a-bst) project-id)
                               (make-projectnode
                                 (projectnode-project-id a-bst)
                                 (projectnode-title a-bst)
                                 (projectnode-advisor a-bst)
                                 (projectnode-students a-bst)
                                 (projectnode-left a-bst)
-                                (drop-student-from-list (projectnode-right a-bst) email))]
+                                (drop-student (projectnode-right a-bst) project-id email))]
                                 
-                              [(< (projectnode-project-id a-bst) email)
+                              [(> (projectnode-project-id a-bst) project-id)
                                 (make-projectnode 
                                 (projectnode-project-id a-bst)
                                 (projectnode-title a-bst)
                                 (projectnode-advisor a-bst)
                                 (projectnode-students a-bst)
-                                (drop-student-from-list (projectnode-left a-bst) email)
+                                (drop-student (projectnode-left a-bst) project-id email)
                                 (projectnode-right a-bst))])])) 
                                
+(check-expect (drop-student LNLPROJ 48 "aekratman@wpi.edu")
+              (make-projectnode 46 "Middle" "Prof Cate"
+                                (list
+                                 (make-student "Abbey" "aekratman@wpi.edu")
+                                 (make-student "Peter" "pmhusman@wpi.edu"))
+                                (make-projectnode 45 "SecondSmall" "Prof Benjamin"
+                                                  (list (make-student "Abbey" "aekratman@wpi.edu")
+                                                        (make-student "Peter" "pmhusman@wpi.edu"))
+                                                  (make-projectnode 43 "FirstSmall" "Prof Thomas"
+                                                                    (list (make-student "Abbey" "aekratman@wpi.edu")
+                                                                          (make-student "Peter" "pmhusman@wpi.edu"))
+                                                                    false
+                                                                    false)
+                                                  false)
+                                (make-projectnode 48 "SecondLarge" "Prof Matthew"
+                                                  (list
+                                                   (make-student "Peter" "pmhusman@wpi.edu"))
+                                                  false
+                                                  (make-projectnode 49 "FirstLarge" "Prof Cara"
+                                                                    (list
+                                                                     (make-student "Abbey" "aekratman@wpi.edu")
+                                                                     (make-student "Peter" "pmhusman@wpi.edu"))
+                                                                    false
+                                                                    false))))
 
+(check-expect (drop-student LNLPROJ 45 "aekratman@wpi.edu")
+              (make-projectnode 46 "Middle" "Prof Cate"
+                                (list
+                                 (make-student "Abbey" "aekratman@wpi.edu")
+                                 (make-student "Peter" "pmhusman@wpi.edu"))
+                                (make-projectnode 45 "SecondSmall" "Prof Benjamin"
+                                                  (list
+                                                   (make-student "Peter" "pmhusman@wpi.edu"))
+                                                  (make-projectnode 43 "FirstSmall" "Prof Thomas"
+                                                                    (list
+                                                                     (make-student "Abbey" "aekratman@wpi.edu")
+                                                                     (make-student "Peter" "pmhusman@wpi.edu"))
+                                                                    false
+                                                                    false)
+                                                  false)
+                                (make-projectnode 48 "SecondLarge" "Prof Matthew"
+                                                  (list
+                                                   (make-student "Abbey" "aekratman@wpi.edu")
+                                                   (make-student "Peter" "pmhusman@wpi.edu"))
+                                                  false
+                                                  (make-projectnode 49 "FirstLarge" "Prof Cara"
+                                                                    (list
+                                                                     (make-student "Abbey" "aekratman@wpi.edu")
+                                                                     (make-student "Peter" "pmhusman@wpi.edu"))
+                                                                    false
+                                                                    false))))
+              
 (check-expect (drop-student (make-projectnode 6.009 "Peter's GPS Homework" "Prof San Martin" LNL false false) 6.009 "aekratman@wpi.edu")
-              (make-projectnode 6.009 "Peter's GPS Homework" "Prof San Martin" (list (make-student "Peter" "pmhusman@wpi.edu")) #false #false))
+              (make-projectnode 6.009 "Peter's GPS Homework" "Prof San Martin" (list (make-student "Peter" "pmhusman@wpi.edu")) false false))
 
 
 (check-expect (drop-student (make-projectnode 333.22 "Projectionist's Practical" "Prof Thomas" LNL false false) 333.22 "aekratman@wpi.edu")
-              (make-projectnode 333.22 "Projectionist's Practical" "Prof Thomas" (list (make-student "Peter" "pmhusman@wpi.edu")) #false #false))
+              (make-projectnode 333.22 "Projectionist's Practical" "Prof Thomas" (list (make-student "Peter" "pmhusman@wpi.edu")) false false))
 
 (check-expect (drop-student (make-projectnode 900 "The Saint Cassian Choir Trip" "Prof Marcus" CHOIR false false) 900 "jdoe@wpi.edu")
               (make-projectnode 900 "The Saint Cassian Choir Trip" "Prof Marcus" (list OCEAN MISCHA NOEL CONSTANCE RICKY) false false))
@@ -229,20 +280,47 @@
 (check-expect (drop-student FROSH 45.882 "aekratman@wpi.edu") (make-projectnode 45.882 "CompSci Lab #2" "Prof Engling"
  (list (make-student "Sean" "sarackal@wpi.edu") (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu") (make-student "Marie" "mkhearst@wpi.edu"))
  (make-projectnode 20 "New Student Orientation" "Prof Liv" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu") (make-student "Morgan" "mevasiliou@wpi.edu") (make-student "Marie" "mnhowe@wpi.edu"))
-  (make-projectnode 10 "Projectionist's Practical" "Prof Thomas" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu")) #false #false)
-  #false)
+  (make-projectnode 10 "Projectionist's Practical" "Prof Thomas" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu")) false false)
+  false)
  (make-projectnode 50 "CompSci Lab #2" "Prof Engling" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Sean" "sarackal@wpi.edu") (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu") (make-student "Marie" "mkhearst@wpi.edu"))
-  #false
-  (make-projectnode 70 "Peter's GPS Homework" "Prof San Martin" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu")) #false #false))))
+  false
+  (make-projectnode 70 "Peter's GPS Homework" "Prof San Martin" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu")) false false))))
  
 (check-expect (drop-student false 1 "sarackal@wpi.edu") false)
+
+(check-expect (drop-student FROSH 45.882 "sarackal@wpi.edu")
+              (make-projectnode 45.882 "CompSci Lab #2" "Prof Engling"
+                                (list (make-student "Abbey" "aekratman@wpi.edu")
+                                      (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu")
+                                      (make-student "Marie" "mkhearst@wpi.edu"))
+                                (make-projectnode 20 "New Student Orientation" "Prof Liv"
+                                                  (list (make-student "Abbey" "aekratman@wpi.edu")
+                                                        (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu")
+                                                        (make-student "Morgan" "mevasiliou@wpi.edu")
+                                                        (make-student "Marie" "mnhowe@wpi.edu"))
+                                                  (make-projectnode 10 "Projectionist's Practical" "Prof Thomas"
+                                                                    (list (make-student "Abbey" "aekratman@wpi.edu")
+                                                                          (make-student "Peter" "pmhusman@wpi.edu"))
+                                                                    false
+                                                                    false)
+                                                  false)
+                                (make-projectnode 50 "CompSci Lab #2" "Prof Engling"
+                                                  (list (make-student "Abbey" "aekratman@wpi.edu")
+                                                        (make-student "Sean" "sarackal@wpi.edu")
+                                                        (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu")
+                                                        (make-student "Marie" "mkhearst@wpi.edu"))
+                                                  false (make-projectnode 70 "Peter's GPS Homework" "Prof San Martin"
+                                                                          (list (make-student "Abbey" "aekratman@wpi.edu")
+                                                                                (make-student "Peter" "pmhusman@wpi.edu"))
+                                                                          false
+                                                                          false))))
 
 
 ;; Question 6
 
 
 ;; Signature and Purpose:
-;;list-projects-in-order-by-id-num: BST -> List 
+;;list-projects-in-order-by-id-num: BST -> List ;;of projects???
 ;;consumes a BST and produces a list of project titles in ascending (least to greatest) order by project ID.
 
  (define (list-projects-in-order-by-id-num a-bst)
@@ -267,36 +345,104 @@
 ;; the new project being added to the tree. 
 
 
- (define (add-project a-bst projnum title advisor) 
-    (cond [(= projnum (projectnode-project-id a-bst)) (make-projectnode projnum title advisor (projectnode-students a-bst) (projectnode-left a-bst) (projectnode-right a-bst))]
-      [(projectnode?  a-bst) (make-projectnode
-                                 projnum
-                                 title
-                                 advisor
-                                 (projectnode-students a-bst)
-                                 (projectnode-left a-bst)
-                                 (projectnode-left a-bst)
-                                 )]))
+(define (add-project a-bst projnum title advisor) 
+  (cond [(false? a-bst) (make-projectnode
+                         projnum
+                         title
+                         advisor
+                         empty
+                         false
+                         false
+                         )]
+        [(< (projectnode-project-id a-bst) projnum)
+         (make-projectnode
+          (projectnode-project-id a-bst)
+          (projectnode-title a-bst)
+          (projectnode-advisor a-bst)
+          (projectnode-students a-bst)
+          (projectnode-left a-bst)
+          (add-project (projectnode-right a-bst) projnum title advisor))]
+        [(> (projectnode-project-id a-bst) projnum)
+         (make-projectnode
+          (projectnode-project-id a-bst)
+          (projectnode-title a-bst)
+          (projectnode-advisor a-bst)
+          (projectnode-students a-bst)
+          (add-project (projectnode-left a-bst) projnum title advisor)
+          (projectnode-right a-bst))]))
 
- (check-expect (add-project LNLPROJ 90 "Testing" "Prof Abbey") (make-projectnode
- 90
- "Testing"
- "Prof Abbey"
- (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu"))
- (make-projectnode
-  45
-  "SecondSmall"
-  "Prof Benjamin"
-  (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu"))
-  (make-projectnode 43 "FirstSmall" "Prof Thomas" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu")) #false #false)
-  #false)
- (make-projectnode
-  45
-  "SecondSmall"
-  "Prof Benjamin"
-  (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu"))
-  (make-projectnode 43 "FirstSmall" "Prof Thomas" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu")) #false #false)
-  #false)))
 
+
+(check-expect (add-project LNLPROJ 90 "Testing" "Prof Abbey")
+              (make-projectnode 46 "Middle" "Prof Cate"
+                                (list
+                                 (make-student "Abbey" "aekratman@wpi.edu")
+                                 (make-student "Peter" "pmhusman@wpi.edu"))
+                                (make-projectnode 45 "SecondSmall" "Prof Benjamin"
+                                                  (list
+                                                   (make-student "Abbey" "aekratman@wpi.edu")
+                                                   (make-student "Peter" "pmhusman@wpi.edu"))
+                                                  (make-projectnode 43 "FirstSmall" "Prof Thomas"
+                                                                    (list
+                                                                     (make-student "Abbey" "aekratman@wpi.edu")
+                                                                     (make-student "Peter" "pmhusman@wpi.edu"))
+                                                                    false
+                                                                    false)
+                                                  false)
+                                (make-projectnode 48 "SecondLarge" "Prof Matthew"
+                                                  (list
+                                                   (make-student "Abbey" "aekratman@wpi.edu")
+                                                   (make-student "Peter" "pmhusman@wpi.edu"))
+                                                  false
+                                                  (make-projectnode 49 "FirstLarge" "Prof Cara"
+                                                                    (list (make-student "Abbey" "aekratman@wpi.edu")
+                                                                          (make-student "Peter" "pmhusman@wpi.edu"))
+                                                                    false
+                                                                    (make-projectnode 90 "Testing" "Prof Abbey"
+                                                                                      empty
+                                                                                      false
+                                                                                      false)))))
+
+(check-expect (add-project LNLPROJ 2 "Testing" "Prof Abbey")
+              (make-projectnode 46 "Middle" "Prof Cate"
+                                (list
+                                 (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu"))
+                                (make-projectnode 45 "SecondSmall" "Prof Benjamin"
+                                                  (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu"))
+                                                  (make-projectnode 43 "FirstSmall" "Prof Thomas"
+                                                                    (list
+                                                                     (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu"))
+                                                                    (make-projectnode 2 "Testing" "Prof Abbey"
+                                                                                      empty
+                                                                                      false
+                                                                                      false)
+                                                                    false)
+                                                  false)
+                                (make-projectnode 48 "SecondLarge" "Prof Matthew"
+                                                  (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu"))
+                                                  false
+                                                  (make-projectnode 49 "FirstLarge" "Prof Cara"
+                                                                    (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu"))
+                                                                    false
+                                                                    false))))
+
+(check-expect (add-project FROSH 23 "Attention Please" "Prof Sean")
+              (make-projectnode 45.882 "CompSci Lab #2" "Prof Engling"
+                                (list (make-student "Abbey" "aekratman@wpi.edu")(make-student "Sean" "sarackal@wpi.edu") (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu") (make-student "Marie" "mkhearst@wpi.edu"))
+                                (make-projectnode 20 "New Student Orientation" "Prof Liv"
+                                                  (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu") (make-student "Morgan" "mevasiliou@wpi.edu") (make-student "Marie" "mnhowe@wpi.edu"))
+                                                  (make-projectnode 10 "Projectionist's Practical" "Prof Thomas"
+                                                                    (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu")) false false)
+                                                  (make-projectnode 23 "Attention Please" "Prof Sean"
+                                                                    empty
+                                                                    false
+                                                                    false))
+                                (make-projectnode 50 "CompSci Lab #2" "Prof Engling"
+                                                  (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Sean" "sarackal@wpi.edu") (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu") (make-student "Marie" "mkhearst@wpi.edu"))
+                                                  false
+                                                  (make-projectnode 70 "Peter's GPS Homework" "Prof San Martin"
+                                                                    (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu"))
+                                                                    false
+                                                                    false))))
 
 ;;Thank you!!

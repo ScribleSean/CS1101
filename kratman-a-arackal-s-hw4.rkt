@@ -66,27 +66,27 @@
  
 (define LNLPROJ (make-projectnode 46 "Middle" "Prof Cate" LNL
                                   (make-projectnode 45 "SecondSmall" "Prof Benjamin" LNL
-                                                   (make-projectnode 43 "FirstSmall" "Prof Thomas" LNL
-                                                                     false
-                                                                     false)
-                                                   false)
+                                                    (make-projectnode 43 "FirstSmall" "Prof Thomas" LNL
+                                                                      false
+                                                                      false)
+                                                    false)
                                   (make-projectnode 48 "SecondLarge" "Prof Matthew" LNL
                                                     false
-                                                   (make-projectnode 49 "FirstLarge" "Prof Cara" LNL
-                                                                     false
-                                                                     false))))
+                                                    (make-projectnode 49 "FirstLarge" "Prof Cara" LNL
+                                                                      false
+                                                                      false))))
 
 (define FROSH (make-projectnode 45.882 "CompSci Lab #2" "Prof Engling" CompSciCrew
-                                  (make-projectnode 20 "New Student Orientation" "Prof Liv" MorganHall
-                                                   (make-projectnode 10 "Projectionist's Practical" "Prof Thomas" LNL
-                                                                     false
-                                                                     false)
-                                                   false)
-                                  (make-projectnode 50 "CompSci Lab #2" "Prof Engling" CompSciCrew
-                                                    false
-                                                   (make-projectnode 70 "Peter's GPS Homework" "Prof San Martin" LNL
-                                                                     false
-                                                                     false))))
+                                (make-projectnode 20 "New Student Orientation" "Prof Liv" MorganHall
+                                                  (make-projectnode 10 "Projectionist's Practical" "Prof Thomas" LNL
+                                                                    false
+                                                                    false)
+                                                  false)
+                                (make-projectnode 50 "CompSci Lab #2" "Prof Engling" CompSciCrew
+                                                  false
+                                                  (make-projectnode 70 "Peter's GPS Homework" "Prof San Martin" LNL
+                                                                    false
+                                                                    false))))
 
 (define RIDETHECYCLONE (make-projectnode 50 "Space Age Bachelor Man" "Prof Karnak" CHOIR
                                          (make-projectnode 40 "Noel's Lament" "Prof Karnak" CHOIR
@@ -141,8 +141,8 @@
 
 
 (define (any-in-dept? a-bst dept) 
-    (cond [(false? a-bst) false]
-          [(projectnode? a-bst)(= (floor (projectnode-project-id a-bst)) dept)]))
+  (cond [(false? a-bst) false]
+        [(projectnode? a-bst)(= (floor (projectnode-project-id a-bst)) dept)]))
  
                           
  
@@ -155,10 +155,10 @@
 (check-expect (any-in-dept? FROSH 45) true)
 
 (check-expect (any-in-dept? (make-projectnode 45.882 "CompSci Lab #2" "Prof Engling" CompSciCrew
-                                  (make-projectnode 20 "New Student Orientation" "Prof Liv" MorganHall
-                                                   (make-projectnode 10 "Projectionist's Practical" "Prof Thomas" LNL false false) false)
-                                  (make-projectnode 80 "CompSci Lab #2" "Prof Engling" CompSciCrew false
-                                                    (make-projectnode 100 "Peter's GPS Homework" "Prof San Martin" LNL false false))) 87) false)
+                                              (make-projectnode 20 "New Student Orientation" "Prof Liv" MorganHall
+                                                                (make-projectnode 10 "Projectionist's Practical" "Prof Thomas" LNL false false) false)
+                                              (make-projectnode 80 "CompSci Lab #2" "Prof Engling" CompSciCrew false
+                                                                (make-projectnode 100 "Peter's GPS Homework" "Prof San Martin" LNL false false))) 87) false)
 (check-expect (any-in-dept? false 1) false)
 
 
@@ -184,35 +184,35 @@
 ;; the student who's email was given dropped from the list of students in the BST.
 
 (define (drop-student a-bst project-id email) 
-    (cond [(false? a-bst) false] 
-          [(projectnode? a-bst) 
-           (cond [(= (projectnode-project-id a-bst) project-id)
-                              (make-projectnode
-                              (projectnode-project-id a-bst)
-                              (projectnode-title a-bst)
-                              (projectnode-advisor a-bst)
-                              (drop-student-from-list (projectnode-students a-bst) email) ;ref
-                              (projectnode-left a-bst)
-                              (projectnode-right a-bst))]
+  (cond [(false? a-bst) false] 
+        [(projectnode? a-bst) 
+         (cond [(= (projectnode-project-id a-bst) project-id)
+                (make-projectnode
+                 (projectnode-project-id a-bst)
+                 (projectnode-title a-bst)
+                 (projectnode-advisor a-bst)
+                 (drop-student-from-list (projectnode-students a-bst) email) ;ref
+                 (projectnode-left a-bst)
+                 (projectnode-right a-bst))]
  
           
-                              [(< (projectnode-project-id a-bst) project-id)
-                              (make-projectnode
-                                (projectnode-project-id a-bst)
-                                (projectnode-title a-bst)
-                                (projectnode-advisor a-bst)
-                                (projectnode-students a-bst)
-                                (projectnode-left a-bst)
-                                (drop-student (projectnode-right a-bst) project-id email))]
+               [(< (projectnode-project-id a-bst) project-id)
+                (make-projectnode
+                 (projectnode-project-id a-bst)
+                 (projectnode-title a-bst)
+                 (projectnode-advisor a-bst)
+                 (projectnode-students a-bst)
+                 (projectnode-left a-bst)
+                 (drop-student (projectnode-right a-bst) project-id email))]
                                 
-                              [(> (projectnode-project-id a-bst) project-id)
-                                (make-projectnode 
-                                (projectnode-project-id a-bst)
-                                (projectnode-title a-bst)
-                                (projectnode-advisor a-bst)
-                                (projectnode-students a-bst)
-                                (drop-student (projectnode-left a-bst) project-id email)
-                                (projectnode-right a-bst))])])) 
+               [(> (projectnode-project-id a-bst) project-id)
+                (make-projectnode 
+                 (projectnode-project-id a-bst)
+                 (projectnode-title a-bst)
+                 (projectnode-advisor a-bst)
+                 (projectnode-students a-bst)
+                 (drop-student (projectnode-left a-bst) project-id email)
+                 (projectnode-right a-bst))])])) 
                                
 (check-expect (drop-student LNLPROJ 48 "aekratman@wpi.edu")
               (make-projectnode 46 "Middle" "Prof Cate"
@@ -278,13 +278,13 @@
 
 
 (check-expect (drop-student FROSH 45.882 "aekratman@wpi.edu") (make-projectnode 45.882 "CompSci Lab #2" "Prof Engling"
- (list (make-student "Sean" "sarackal@wpi.edu") (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu") (make-student "Marie" "mkhearst@wpi.edu"))
- (make-projectnode 20 "New Student Orientation" "Prof Liv" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu") (make-student "Morgan" "mevasiliou@wpi.edu") (make-student "Marie" "mnhowe@wpi.edu"))
-  (make-projectnode 10 "Projectionist's Practical" "Prof Thomas" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu")) false false)
-  false)
- (make-projectnode 50 "CompSci Lab #2" "Prof Engling" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Sean" "sarackal@wpi.edu") (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu") (make-student "Marie" "mkhearst@wpi.edu"))
-  false
-  (make-projectnode 70 "Peter's GPS Homework" "Prof San Martin" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu")) false false))))
+                                                                                (list (make-student "Sean" "sarackal@wpi.edu") (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu") (make-student "Marie" "mkhearst@wpi.edu"))
+                                                                                (make-projectnode 20 "New Student Orientation" "Prof Liv" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu") (make-student "Morgan" "mevasiliou@wpi.edu") (make-student "Marie" "mnhowe@wpi.edu"))
+                                                                                                  (make-projectnode 10 "Projectionist's Practical" "Prof Thomas" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu")) false false)
+                                                                                                  false)
+                                                                                (make-projectnode 50 "CompSci Lab #2" "Prof Engling" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Sean" "sarackal@wpi.edu") (make-student "Joshua/Penny/PJ" "jalongo@wpi.edu") (make-student "Marie" "mkhearst@wpi.edu"))
+                                                                                                  false
+                                                                                                  (make-projectnode 70 "Peter's GPS Homework" "Prof San Martin" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu")) false false))))
  
 (check-expect (drop-student false 1 "sarackal@wpi.edu") false)
 
@@ -323,16 +323,16 @@
 ;;list-projects-in-order-by-id-num: BST -> List ;;of projects???
 ;;consumes a BST and produces a list of project titles in ascending (least to greatest) order by project ID.
 
- (define (list-projects-in-order-by-id-num a-bst)
+(define (list-projects-in-order-by-id-num a-bst)
   (cond [(false? a-bst) empty ] 
-    [(projectnode? a-bst)
-     (append (list-projects-in-order-by-id-num (projectnode-left a-bst))
-             (list (projectnode-title a-bst))
-                   (list-projects-in-order-by-id-num (projectnode-right a-bst))
-                   )]))
+        [(projectnode? a-bst)
+         (append (list-projects-in-order-by-id-num (projectnode-left a-bst))
+                 (list (projectnode-title a-bst))
+                 (list-projects-in-order-by-id-num (projectnode-right a-bst))
+                 )]))
 
- (check-expect (list-projects-in-order-by-id-num LNLPROJ)  (list "FirstSmall" "SecondSmall" "Middle" "SecondLarge" "FirstLarge"))
- (check-expect (list-projects-in-order-by-id-num RIDETHECYCLONE) (list "What the World Needs" "Noel's Lament" "Talia"
+(check-expect (list-projects-in-order-by-id-num LNLPROJ)  (list "FirstSmall" "SecondSmall" "Middle" "SecondLarge" "FirstLarge"))
+(check-expect (list-projects-in-order-by-id-num RIDETHECYCLONE) (list "What the World Needs" "Noel's Lament" "Talia"
                                                                       "Space Age Bachelor Man" "The Ballad of Jane Doe" "Sugar Cloud"))
 
  

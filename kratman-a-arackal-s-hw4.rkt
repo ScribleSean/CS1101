@@ -44,7 +44,6 @@
 (define CHOIR (list OCEAN MISCHA NOEL CONSTANCE RICKY JANE))
 (define-struct projectnode (project-id title advisor students left right))
 
-;;ProjectNode is a (make-projectnode (Number String String ListOfStudent BST BST))
 
 ;; a BST is one of
 ;;   false
@@ -299,4 +298,5 @@
   (make-projectnode 43 "FirstSmall" "Prof Thomas" (list (make-student "Abbey" "aekratman@wpi.edu") (make-student "Peter" "pmhusman@wpi.edu")) #false #false)
   #false)))
 
- 
+
+;;Thank you!!

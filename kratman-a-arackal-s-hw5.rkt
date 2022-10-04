@@ -220,7 +220,7 @@
 (define BUZZ (make-merchandise "Buzz Lightyear" "action figure" false 340 6.99))
 (define ONUW (make-merchandise "One Night Ultimate Werewolf" "board game" false 720 12.99))
 (define JETER (make-merchandise "Derek Jeter 1996 Yankees Bronze" "trading card" true 12 899.99))
-(define Receipt1 (list BUZZ ONUW JETER))
+(define RECEIPT1 (list BUZZ ONUW JETER))
 
 
 ;; Question 8
@@ -234,7 +234,7 @@
   (map merchandise-name (filter bargain-items-helper alom))))
 
 (check-expect (bargain-items empty) empty)
-(check-expect (bargain-items Receipt1)  (list "One Night Ultimate Werewolf" "Derek Jeter 1996 Yankees Bronze"))
+(check-expect (bargain-items RECEIPT1)  (list "One Night Ultimate Werewolf" "Derek Jeter 1996 Yankees Bronze"))
 
 
 ;; Question 9
@@ -249,8 +249,8 @@
 
 
 (check-expect (any-of-kind? empty "trading card") false)
-(check-expect (any-of-kind? Receipt1 "action figure") true)
-(check-expect (any-of-kind? Receipt1 "costume") false)
+(check-expect (any-of-kind? RECEIPT1 "action figure") true)
+(check-expect (any-of-kind? RECEIPT1 "costume") false)
 
 
 ;; Question 10
@@ -264,7 +264,7 @@
     (filter cheap-auto? alom)))
 
 (check-expect (list-cheap-autograph empty 999.99) empty)
-(check-expect (list-cheap-autograph Receipt1 12.99) (list BUZZ ONUW))
-(check-expect (list-cheap-autograph Receipt1 12.98) (list BUZZ))
+(check-expect (list-cheap-autograph RECEIPT1 12.99) (list BUZZ ONUW))
+(check-expect (list-cheap-autograph RECEIPT1 12.98) (list BUZZ))
 
 ;;Thank you!!

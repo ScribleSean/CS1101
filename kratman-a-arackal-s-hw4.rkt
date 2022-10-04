@@ -48,6 +48,7 @@
 ;; a BST is one of
 ;;   false
 ;;   ProjectNode
+
 ;; a ProjectNode is a (make-projectnode Number String String ListOfStudent BST BST)
 
 ;;  interp:  represents a course's aspects.
@@ -62,7 +63,8 @@
 ;; project-id is < all project-id in its right child
 ;; the same key never appears twice in the tree
 
-;; Examples of Lists
+
+;; Question 2
  
 (define LNLPROJ (make-projectnode 46 "Middle" "Prof Cate" LNL
                                   (make-projectnode 45 "SecondSmall" "Prof Benjamin" LNL
@@ -267,14 +269,23 @@
                                                                     false))))
               
 (check-expect (drop-student (make-projectnode 6.009 "Peter's GPS Homework" "Prof San Martin" LNL false false) 6.009 "aekratman@wpi.edu")
-              (make-projectnode 6.009 "Peter's GPS Homework" "Prof San Martin" (list (make-student "Peter" "pmhusman@wpi.edu")) false false))
+              (make-projectnode 6.009 "Peter's GPS Homework" "Prof San Martin"
+                                (list (make-student "Peter" "pmhusman@wpi.edu"))
+                                false
+                                false))
 
 
 (check-expect (drop-student (make-projectnode 333.22 "Projectionist's Practical" "Prof Thomas" LNL false false) 333.22 "aekratman@wpi.edu")
-              (make-projectnode 333.22 "Projectionist's Practical" "Prof Thomas" (list (make-student "Peter" "pmhusman@wpi.edu")) false false))
+              (make-projectnode 333.22 "Projectionist's Practical" "Prof Thomas"
+                                (list (make-student "Peter" "pmhusman@wpi.edu"))
+                                false
+                                false))
 
 (check-expect (drop-student (make-projectnode 900 "The Saint Cassian Choir Trip" "Prof Marcus" CHOIR false false) 900 "jdoe@wpi.edu")
-              (make-projectnode 900 "The Saint Cassian Choir Trip" "Prof Marcus" (list OCEAN MISCHA NOEL CONSTANCE RICKY) false false))
+              (make-projectnode 900 "The Saint Cassian Choir Trip" "Prof Marcus"
+                                (list OCEAN MISCHA NOEL CONSTANCE RICKY)
+                                false
+                                false))
 
 
 (check-expect (drop-student FROSH 45.882 "aekratman@wpi.edu") (make-projectnode 45.882 "CompSci Lab #2" "Prof Engling"
@@ -331,6 +342,7 @@
                  (list-projects-in-order-by-id-num (projectnode-right a-bst))
                  )]))
 
+(check-expect (list-projects-in-order-by-id-num false) empty)
 (check-expect (list-projects-in-order-by-id-num LNLPROJ)  (list "FirstSmall" "SecondSmall" "Middle" "SecondLarge" "FirstLarge"))
 (check-expect (list-projects-in-order-by-id-num RIDETHECYCLONE) (list "What the World Needs" "Noel's Lament" "Talia"
                                                                       "Space Age Bachelor Man" "The Ballad of Jane Doe" "Sugar Cloud"))
@@ -370,7 +382,6 @@
           (projectnode-students a-bst)
           (add-project (projectnode-left a-bst) projnum title advisor)
           (projectnode-right a-bst))]))
-
 
 
 (check-expect (add-project LNLPROJ 90 "Testing" "Prof Abbey")

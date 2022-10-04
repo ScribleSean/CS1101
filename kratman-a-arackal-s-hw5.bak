@@ -1,0 +1,92 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname hw5-starter) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(define TODO 0) ;; delete this line when done
+
+;; Part 1: Hierarchies
+
+;; 1. Data definition(s)
+;; TODO: data definition comment for river
+(define-struct river (TODO))
+;; TODO: data definition for ListOfRiver (which is just a comment)
+
+
+;; 2. Example
+;; Must have >= 3 levels total (2 + root)
+;; The data *do not* have to match any real-world river.
+(define example-river TODO)
+
+;; 3. Templates
+;; TODO: write a template for a function that takes a river as an argument
+;; (write it in this comment)
+
+;; TODO: write a template for a function that takes a *list of* rivers as an argument
+;; (write it in this comment)
+
+;; 4. list-alkaline-rivers
+;; TODO: Signature, purpose, definition, check-expects, for BOTH functions
+(define (list-alkaline-rivers a-river) TODO)
+(define (list-alkaline-rivers-helper a-lor) TODO)
+
+;; 5. algae-free?
+;; TODO: Signature, purpose, definition, check-expects, for BOTH functions
+(define (algae-free? a-river) TODO)
+(define (algae-free-helper? a-river) TODO)
+
+;; 6. raise-all-ph
+;; TODO: Signature, purpose, definition, check-expects, for BOTH functions
+(define (raise-all-ph a-river) TODO)
+(define (raise-all-ph-helper a-lor) TODO)
+
+;; 7. find-subsystem
+;; TODO: Signature, purpose, definition, check-expects, for BOTH functions
+(define (find-subsystem name a-river) TODO)
+(define (find-subsystem-helper name a-lor) TODO)
+
+
+;; Part 2: Higher Order Functions
+
+;; Starter code copied from HW3 for you!
+(define-struct merchandise (name kind autographed? quantity price))
+;; a Merchandise is a (make-merchandise String String Boolean Natural Number)
+;; interp:
+;; Merchandise represents an item sold at a pop culture emporium, where
+;; name is the name of the merchandise item
+;; kind indicates whether the item is an action figure, board game, costume,
+;; manga/comic book, trading card, etc.
+;; autographed? is true if the item is autographed
+;; quantity is the number of that item that is being purchased
+;; price is the cost of a single item
+;; a Receipt (ListOfMerchandise) is one of
+;; empty, or
+;; (cons Merchandise Receipt)
+
+
+;; 8. bargain-items
+;; *must* use map and filter
+;; *must* use local for full credit
+;; bargain-items: ListOfMerchandise -> ListOfString
+;; consumes a list of merchandise items and produces a list of the names
+;; TODO: Implement function
+(define (bargain-items a-lom) TODO)
+;; TODO: check-expects (copying from HW3 is ok)
+
+;; 9. any-of-kind?
+;; *must* use a higher-order function
+;; *must* use local for full credit
+;; any-of-kind?: ListOfMerchandise String -> Boolean
+;; consumes a ListOfMerchandise and a kind of merchandise item produces
+;; true if there is an item of that kind in the ListOfMerchandise
+(define (any-of-kind? a-lom string) TODO)
+;; TODO: Implement function, 
+;; TODO: check-expects (copying from HW3 is ok)
+
+;; 10. list-cheap-autograph?
+;; *must* use filter
+;; *must* use local or helper for full credit
+;; list-cheap-autograph: ListOfMerchandise Number -> ListOfMerchandise
+;; consumes a list of merchandise items and returns a list of those
+;; autographed items that cost at most the given amount
+(define (list-cheap-autograph? a-lom number) TODO)
+;; TODO: Implement function
+;; TODO: check-expects (copying from HW3 is ok)

@@ -27,13 +27,13 @@
 ;; Question 2
 
 
-(define RIVERTREE
+(define RIVERSYSTEM
   (make-river "River0" 13 false
               (list (make-river "River1" 10 false empty)
                     (make-river "River2" 2 false
                                 (list (make-river "River3" 12 false empty))))))
 
-(define LAKETREE
+(define LAKESYSTEM
   (make-river "Lake0" 1 true
               (list (make-river "Lake1" 2 true
                                 (list (make-river "Lake1a" 2 true empty)
@@ -43,7 +43,7 @@
                     (make-river "Lake2" 3 false empty)
                     (make-river "Lake3" 4 false empty))))
 
-(define CREEKTREE
+(define CREEKSYSTEM
   (make-river "CREEK0" 7.5 true
               (list (make-river "Creek1" 4 false
                                 (list (make-river "Creek1a" 6 true
@@ -97,9 +97,9 @@
       (cons (river-name a-river) (alkaline-river-list (river-tributaries a-river)))
       (alkaline-river-list (river-tributaries a-river))))
 
-(check-expect (list-alkaline-rivers RIVERTREE) (list "River0" "River1" "River3"))
-(check-expect (list-alkaline-rivers LAKETREE) empty)
-(check-expect (list-alkaline-rivers CREEKTREE) (list "Creek1b" "Creek3bAa"))
+(check-expect (list-alkaline-rivers RIVERSYSTEM) (list "River0" "River1" "River3"))
+(check-expect (list-alkaline-rivers LAKESYSTEM) empty)
+(check-expect (list-alkaline-rivers CREEKSYSTEM) (list "Creek1b" "Creek3bAa"))
 
 
 ;; Question 5
@@ -123,9 +123,9 @@
       (algae-free-helper? (river-tributaries a-river))))
 
 (check-expect (algae-free? (make-river "Blooming River" 12 true empty)) false)
-(check-expect (algae-free? RIVERTREE) true)
-(check-expect (algae-free? LAKETREE) false)
-(check-expect (algae-free? CREEKTREE) false)
+(check-expect (algae-free? RIVERSYSTEM) true)
+(check-expect (algae-free? LAKESYSTEM) false)
+(check-expect (algae-free? CREEKSYSTEM) false)
 
 ;; Question 6
 
@@ -149,12 +149,12 @@
               (river-bloom? a-river)
               (raise-all-ph-list (river-tributaries a-river))))
 
-(check-expect (raise-all-ph RIVERTREE)
+(check-expect (raise-all-ph RIVERSYSTEM)
               (make-river "River0" 13.5 false
                           (list (make-river "River1" 10.5 false empty)
                                 (make-river "River2" 2.5 false
                                             (list (make-river "River3" 12.5 false empty))))))
-(check-expect (raise-all-ph LAKETREE)
+(check-expect (raise-all-ph LAKESYSTEM)
               (make-river "Lake0" 1.5 true
                           (list (make-river "Lake1" 2.5 true
                                             (list (make-river "Lake1a" 2.5 true empty)
@@ -187,9 +187,9 @@
       a-river
       (browse-river name (river-tributaries a-river))))
 
-(check-expect (find-subsystem "Creek0" LAKETREE) false)
-(check-expect (find-subsystem "River3" RIVERTREE) (make-river "River3" 12 false empty))
-(check-expect (find-subsystem "Creek3" CREEKTREE)
+(check-expect (find-subsystem "Creek0" LAKESYSTEM) false)
+(check-expect (find-subsystem "River3" RIVERSYSTEM) (make-river "River3" 12 false empty))
+(check-expect (find-subsystem "Creek3" CREEKSYSTEM)
               (make-river "Creek3" 7.5 false
                           (list (make-river "Creek3a" 5.5 true empty)
                                 (make-river "Creek3b" 8.5 true

@@ -207,8 +207,7 @@
 ;; interp:
 ;; Merchandise represents an item sold at a pop culture emporium, where
 ;; name is the name of the merchandise item
-;; kind indicates whether the item is an action figure, board game, costume,
-;; manga/comic book, trading card, etc.
+;; kind indicates whether the item is an action figure, board game, costume, manga/comic book, trading card, etc.
 ;; autographed? is true if the item is autographed
 ;; quantity is the number of that item that is being purchased
 ;; price is the cost of a single item
@@ -267,3 +266,5 @@
 (check-expect (list-cheap-autograph empty 999.99) empty)
 (check-expect (list-cheap-autograph Receipt1 12.99) (list BUZZ ONUW))
 (check-expect (list-cheap-autograph Receipt1 12.98) (list BUZZ))
+
+;;Thank you!!

@@ -141,7 +141,8 @@
         [(cons? alor) (if (not (false? (find-subsystem name (first alor))))
                           (find-subsystem name (first alor))
                           (browse-river name (rest alor)))]))
-;check-expect helper
+
+(check-expect (browse-river "River1" empty) false)
 
 ;;signature purpose
 (define (find-subsystem name a-river)
@@ -151,19 +152,76 @@
 
 (check-expect (find-subsystem "River3" RIVERTREE) (make-river "River3" 12 false empty))
 
-;check-expect
 
 
 
 ;; Part 2: Higher Order Functions
 
 
-;;Question 8
+(define-struct merchandise (name kind autographed? quantity price))
+;; a Merchandise is a (make-merchandise String String Boolean Natural Number)
+;; interp:
+;; Merchandise represents an item sold at a pop culture emporium, where
+;; name is the name of the merchandise item
+;; kind indicates whether the item is an action figure, board game, costume,
+;; manga/comic book, trading card, etc.
+;; autographed? is true if the item is autographed
+;; quantity is the number of that item that is being purchased
+;; price is the cost of a single item
 
 
-#;(define (bargain-items-help a-lom)
-  (> (merchandise-price a-lom) 10))
+;; a Receipt (ListOfMerchandise) is one of
+;; empty, or
+;; (cons Merchandise Receipt)
+
+(define BUZZ (make-merchandise "Buzz Lightyear" "action figure" false 340 6.99))
+(define ONUW (make-merchandise "One Night Ultimate Werewolf" "board game" false 720 12.99))
+(define JETER (make-merchandise "Derek Jeter 1996 Yankees Bronze" "trading card" true 12 899.99))
+(define Receipt1 (list BUZZ ONUW JETER))
 
 
-#;(define (bargain-items a-lom)
-  (map merchandise-name (filter bargain-items-help a-lom)))
+;; Question 8
+
+
+;;bargain-items: ListOfMerchandise -> ListOfString
+;;consumes a list of merchandise items and produces a list of the names
+;;of all the items with prices under $10.
+(define (bargain-items alom)
+  (local [(define (bargain-items-helper alom) (> (merchandise-price alom) 10))]
+  (map merchandise-name (filter bargain-items-helper alom))))
+
+(check-expect (bargain-items empty) empty)
+(check-expect (bargain-items Receipt1)  (list "One Night Ultimate Werewolf" "Derek Jeter 1996 Yankees Bronze"))
+
+
+;; Question 9
+
+
+;;any-of-kind?: ListOfMerchandise String -> Boolean
+;;consumes a ListOfMerchandise and a kind of merchandise item produces
+;;true if there is an item of that kind in the ListOfMerchandise
+
+(define (any-of-kind? alom type)
+  (local [(define (merch-kind? alom) (string=? type (merchandise-kind  alom)))]
+    (ormap merch-kind? alom)))
+
+
+(check-expect (any-of-kind? empty "trading card") false)
+(check-expect (any-of-kind? Receipt1 "action figure") true)
+(check-expect (any-of-kind? Receipt1 "costume") false)
+
+
+;; Question 10
+
+
+;;list-cheap-autograph: ListOfMerchandise Number -> ListOfMerchandise
+;;consumes a list of merchandise items and returns a list of those
+;;autographed items that cost at most the given amount
+
+(define (list-cheap-autograph alom cost)
+  (local [(define (cheap-auto? a-merch) (<= (merchandise-price a-merch) cost))]
+    (filter cheap-auto? alom)))
+
+(check-expect (list-cheap-autograph empty 999.99) empty)
+(check-expect (list-cheap-autograph Receipt1 12.99) (list BUZZ ONUW))
+(check-expect (list-cheap-autograph Receipt1 12.98) (list BUZZ))

@@ -115,7 +115,7 @@
   (cond [(empty? alor) empty]
         [(cons? alor) (cons (raise-all-ph (first alor))
                             (raise-all-ph-list (rest alor)))]))
-;;check-expect
+;;check-expect helper
 
 ;;signature purpose
 (define (raise-all-ph a-river)
@@ -132,11 +132,38 @@
 ;;check-expect
 
 
-;;Question 
+;; Question 7
+
+
+;signature purpose helper
+(define (browse-river name alor)
+  (cond [(empty? alor) false]
+        [(cons? alor) (if (not (false? (find-subsystem name (first alor))))
+                          (find-subsystem name (first alor))
+                          (browse-river name (rest alor)))]))
+;check-expect helper
+
+;;signature purpose
+(define (find-subsystem name a-river)
+  (if (string=? name (river-name a-river))
+      a-river
+      (browse-river name (river-tributaries a-river))))
+
+(check-expect (find-subsystem "River3" RIVERTREE) (make-river "River3" 12 false empty))
+
+;check-expect
+
+
+
 ;; Part 2: Higher Order Functions
 
 
 ;;Question 8
 
 
+#;(define (bargain-items-help a-lom)
+  (> (merchandise-price a-lom) 10))
 
+
+#;(define (bargain-items a-lom)
+  (map merchandise-name (filter bargain-items-help a-lom)))

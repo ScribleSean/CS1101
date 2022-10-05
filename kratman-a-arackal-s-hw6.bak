@@ -1,0 +1,53 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-advanced-reader.ss" "lang")((modname kratman-a-arackal-s-hw6) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f () #f)))
+;; Names: Abigail Kratman & Sean Arackal
+;; WPI Usernames: aekratman & sarackal
+;; Homework #6
+
+;; Question 1
+
+
+(define-struct message (username text read?))
+;; Message is a (make-message String String Boolean)
+;; interp: represents a message.
+;; username is a String
+;; text is a String
+;; read? is a Boolean
+
+(define-struct user (username mailbox))
+;; User is a (make-user String ListOfMessage)
+;; interp: represents a user.
+;; username is a String
+;; mailbox is a ListOfMessage
+
+
+;; ListOfMessage is one of
+;; empty
+;; (cons Message ListOfMessage)
+
+
+
+;; Question 2
+
+(define Mailsys empty)
+(define Newuser (make-user "Newuser" empty))
+
+;; Question 3
+
+(define (add-new-user username)
+  (set! Mailsys (cons (make-user username empty) Mailsys)))
+;; EFFECT: May increase the length of the Mail system.
+
+(add-new-user "Abbey")
+
+;; Question 4
+
+(define (send-email-message sendername reipientname text)
+  (set! user 
+
+;Write a function send-email-message that consumes 
+;the name of the sender of an email, the name of the recipient of the email, and the 
+;text of an email message, and produces void. The effect of the function is to store 
+;a new unread message in the recipient's mailbox. Assume the named recipient is a 
+;user in the mail system.

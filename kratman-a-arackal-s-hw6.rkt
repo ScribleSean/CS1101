@@ -42,7 +42,7 @@
 (define (helper-new-user username)
   (cons (make-user username empty) mailsys))
 
-(check-expect (helper-new-user "Shawn") (list (make-user "Shawn" empty)))
+;(check-expect (helper-new-user "Shawn") (list (make-user "Shawn" empty)))
 
 ;; add-new-user: String --> (void)
 ;; adds a new user with given username 
@@ -140,23 +140,24 @@
 
 
 ;; Test Cases for Question 2
-;mailsys
-;(add-new-user "Gompei")
-;(add-new-user "Attila")
-;mailsys
+;;(set! mailsys empty) --> void
+;mailsys --> empty
+;(add-new-user "Gompei") --> void
+;(add-new-user "Attila") --> void
+;mailsys --> (list (make-user "Attila" empty) (make-user "Gompei" empty))
 
 ;; Test Cases for Question 4
 ;mailsys
-;(send-email-message "Gompei" "Attila" "Goat big or goat home!")
-;mailsys
-;(send-email-message "Attila" "Gompei" "You must be quackers!")
-;(send-email-message "Gompei" "Attila" "You have goat to be kidding!")
-;mailsys
+;(send-email-message "Gompei" "Attila" "Goat big or goat home!") --> (void)
+;mailsys --> (shared ((-1- (make-user "Attila" (list (make-message -1- "Goat big or goat home!" false))))) (list -1- (make-user "Gompei" empty)))
+;(send-email-message "Attila" "Gompei" "You must be quackers!") --> void
+;(send-email-message "Gompei" "Attila" "You have goat to be kidding!") --> void
+;mailsys -->(shared ((-1- (make-user "Attila" (list (make-message -1- "You have goat to be kidding!" false)
+;                         (make-message -1- "Goat big or goat home!" false))))
+;                   (-10- (make-user "Gompei" (list (make-message -10- "You must be quackers!" false))))) (list -1- -10-))
 
 
 ;; Test Cases for Question 5
-
-
 #;(check-expect (get-all-unread-messages "Attila") (shared ((-1- (make-message -2- "You have goat to be kidding!" true))
                                                           (-2- (make-user "Attila" (list -1- -6-)))
                                                           (-6- (make-message -2- "Goat big or goat home!" true))) (list -1- -6-)))
@@ -177,7 +178,6 @@
 
 ;; sum-of-string-lengths: ListOfString -> Number
 ;; consumes a ListOfString and produces the sum of the lengths of the strings in the list.
-
 (define (sum-of-string-lengths a-los)
   (helpersum a-los 0))
 
@@ -185,13 +185,11 @@
 (check-expect (sum-of-string-lengths (list "ABCD" "EFGH" "IJKL")) 12) 
 
 
-
 ;; Question 9
 
 ;; helper-one-long-string: ListOfString String -> String
 ;; helper function for one-long-string which takes in a ListOfString and a string and produces a string
 ;; of the entire ListOfString accumelated together.
-
 (define (helper-one-long-string a-los acc)
     (cond [(empty? a-los) acc]
         [(cons? a-los) (helper-one-long-string (rest a-los) (string-append acc (first a-los)))]))
